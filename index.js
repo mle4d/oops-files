@@ -10,5 +10,6 @@ fs.rename('./files/2.txt', './files/unicorns.txt', err => {
 
 });
 
-// module.exports = {
-//   fs
+module.export = {
+  fs
+};
