@@ -3,7 +3,8 @@ const { createFiles } = require('./create-files');
 const {
   readDirectory,
   rename,
-  getModifiedTime
+  getModifiedTime,
+  renameEverything
 } = require('./rename-files');
 
 describe('rename files', () => {
@@ -42,6 +43,22 @@ describe('rename files', () => {
       done();
     });
   });
-  it('');
+  it('gets file content', done => {
+    fs.readFile('./files/2.txt', { encoding: 'utf8' });
+    done();
+  });
 });
 
+it('renames all', done => {
+  renameEverything('./files', err => {
+    expect(err).toBeFalsy();
+
+    fs.readdir('./files', (err, files) => {
+      expect(files).toEqual(3);
+      files.forEach(file => {
+        expect(file).toMatch(/\w+-\d+-\d{4}-\d{2}-t\d{2}T\d{2}:\d{2}:\d{2}\.d+z);
+      });
+      done();
+    });
+  });
+});

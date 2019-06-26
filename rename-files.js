@@ -17,9 +17,24 @@ const getModifiedTime = (path, callback) => {
 const readFile = (path, callback) => {
   fs.readFile(path, { encoding: 'utf8' }, callback);
 };
+
+const readEverything = (directory, callback) => {
+  readDirectory(directory, (err, files) => {
+    files.forEach(files => {
+      readFile('${directory}/${file}', (err, fileContent) => {
+        let renamedSoFar = 0;
+        if(err) return callback(err);
+        getModifiedTime('${directory}/${file}', (err, modifiedTime) => {
+          if(err) return callback(err);
+        });
+      });
+    });
+  });
+};
 module.exports = {
   readDirectory,
   rename,
   getModifiedTime,
-  readFile
+  readFile,
+  readEverything
 };
