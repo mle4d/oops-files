@@ -9,7 +9,6 @@ const rename = (path, newPath, callback) => {
 };
 const getModifiedTime = (path, callback) => {
   fs.stat(path, (err, stats) => {
-    if(!stats) return callback(err);
     callback(err, stats && stats.mtime.toISOString());
   });
 };
@@ -18,23 +17,29 @@ const readFile = (path, callback) => {
   fs.readFile(path, { encoding: 'utf8' }, callback);
 };
 
-const readEverything = (directory, callback) => {
+const renameEverything = (directory, callback) => {
   readDirectory(directory, (err, files) => {
+    if(err) return callback(err);
+    let renamedSoFar = 0;
     files.forEach(files => {
       readFile('${directory}/${file}', (err, fileContent) => {
-        let renamedSoFar = 0;
         if(err) return callback(err);
         getModifiedTime('${directory}/${file}', (err, modifiedTime) => {
           if(err) return callback(err);
+          const number = fileContent.split('.')[0];
+          rename('${directory}/${file}', '${directory}/${fileContent}-${number}-${modifiedTime}`, err => {
+            if(err) return callback(err);
+            renamedSofar++;
+            if(renamedSoFar === files.length) callback();
+          });
         });
       });
     });
-  });
-};
+  };
 module.exports = {
   readDirectory,
   rename,
   getModifiedTime,
   readFile,
-  readEverything
+  renameEverything
 };
