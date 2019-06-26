@@ -36,6 +36,7 @@ const renameEverything = (directory, callback) => {
       });
     });
   });
+
 module.exports = {
   readDirectory,
   rename,

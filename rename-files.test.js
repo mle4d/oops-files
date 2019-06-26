@@ -13,7 +13,7 @@ describe('rename files', () => {
     createFiles('./files', 3, done);
   });
 
-  it('gets all files to rename', () => {
+  it('gets all files to rename', done => {
     readDirectory('./files', (err, files) => {
       expect(files).toHavelength(3);
       done();
@@ -41,25 +41,25 @@ describe('rename files', () => {
 
   });
   it('gets file content', done => {
-    fs.readFile('./files/2.txt', { encoding: 'utf8' }, (err, expectedContent) => }
+    fs.readFile('./files/2.txt', { encoding: 'utf8' }, (err, expectedContent) => {
       readFile('./files/2.txt', (err, resultContent) => {
         expect(err).toBeFalsy();
         expect(resultContent).toEqual(expectedContent);
         done();
-    });
-  });
-});
-
-it('renames all', done => {
-  renameEverything('./files', err => {
-    expect(err).toBeFalsy();
-
-    fs.readdir('./files', (err, files) => {
-      expect(files).toHaveLength(3);
-      files.forEach(file => {
-        expect(file).toMatch(/\w+-\d+-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/);
       });
-      done();
+    });
+    it('renames all', done => {
+      renameEverything('./files', err => {
+        expect(err).toBeFalsy();
+
+        fs.readdir('./files', (err, files) => {
+          expect(files).toHaveLength(3);
+          files.forEach(file => {
+            expect(file).toMatch(/\w+-\d+-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/);
+          });
+          done();
+        });
+      });
     });
   });
 });
