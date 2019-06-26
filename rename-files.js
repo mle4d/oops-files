@@ -21,13 +21,13 @@ const renameEverything = (directory, callback) => {
   readDirectory(directory, (err, files) => {
     if(err) return callback(err);
     let renamedSoFar = 0;
-    files.forEach(files => {
+    files.forEach(file => {
       readFile('${directory}/${file}', (err, fileContent) => {
         if(err) return callback(err);
         getModifiedTime('${directory}/${file}', (err, modifiedTime) => {
           if(err) return callback(err);
-          const number = fileContent.split('.')[0];
-          rename('${directory}/${file}', '${directory}/${fileContent}-${number}-${modifiedTime}`, err => {
+          const number = file.split('.')[0];
+          rename('${directory}/${file}', '${directory}/${fileContent}-${number}-${modifiedTime}', err => {
             if(err) return callback(err);
             renamedSofar++;
             if(renamedSoFar === files.length) callback();
@@ -35,7 +35,7 @@ const renameEverything = (directory, callback) => {
         });
       });
     });
-  };
+  });
 module.exports = {
   readDirectory,
   rename,

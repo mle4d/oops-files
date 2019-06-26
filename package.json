@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest -- verbose --runInBand",
-    "test:watch": 
+    "test": "jest --verbose --runInBand",
+    "test:watch": "npm run test -- --watch",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
